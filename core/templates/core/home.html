@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+{% load static %}
+
+<!-- Bootstrap -->
+<link href="{% static 'core/vendor/bootstrap/css/bootstrap.min.css' %}"  rel="stylesheet">
+
+<!-- Fuentes -->
+<link href="{% static 'core/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
+
+<!-- Estilos -->
+<link href="{% static 'core/css/home.css' %}" rel="stylesheet">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<!-- BnW AMODEV -->
+<div id="topSection" class="topSection"> 
+    <div class="half-screen left-screen">
+      <a href="#photoSection" >Projects</a>
+    </div>
+    <div class="half-screen right-screen">
+      <a href="#devSection" >Who am i</a>
+    </div>
+    <div class="center-image">
+      <img src="{% static 'core/img/logoBlackBg.png' %}" style="height:40%; width:40%">
+  </div>
+</div>
+
+<!-- ProjectsNaButton -->
+<div class="nav">
+  <div class="bottomNav">
+  </div>
+  <a href="#topSection" id="navText">↑</a>
+</div> 
+<!-- body -->
+<div class="container main">
+
+  <!--Who am i-->
+  <div id="devSection">
+    <div class="span">
+      <div class="accordeon check">
+          <!--ABOUT-->
+          <label for="panel1">ABOUT</label>
+          <input id="panel1" type="checkbox" />
+          <div class="panel">
+            {% for about in abouts reversed %}
+                <h3>{{about.titulo_about}}</h3>
+                <h3>{{about.texto_about}}</h3>
+                <br>
+                <h3>{{about.titulo_about_dos}}</h3>
+                <h3>{{about.texto_about_dos}}</h3>
+            {% endfor %}
+          </div>
+
+          <!--SKILLS-->
+          <label for="panel2">SKILLS</label>
+          <input id="panel2" type="checkbox" />
+          <div class="panel">
+            <div class="text hidden-xs">PROGRAMMING LANGUAGES, DATABASES AND OTHERS
+          </div>
+          <div class="row">
+            {% for skill in skills|dictsort:"nombre_skill" %}
+              {% if skill.tipo_skill == '1' %}
+                <div class="col-md-6">
+                  <p class="label three"> {{skill.nombre_skill}}</p>
+                  <div class="progress-bar">
+                    <div class="progress fill-{{skill.porcentaje_skill}}">
+                      <div class="glow"></div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+            </div>
+            <div class="text hidden-xs">SOFTWARE AND OPERATING SYSTEMS</div>
+            <div class="row">
+              {% for skill in skills|dictsort:"nombre_skill" %}
+                {% if skill.tipo_skill == '2' %}
+                  <div class="col-md-6">
+                    <p class="label three"> {{skill.nombre_skill}}</p>
+                    <div class="progress-bar">
+                      <div class="progress fill-{{skill.porcentaje_skill}}">
+                        <div class="glow"></div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+            <div class="text hidden-xs">LANGUAGES</div>
+            <div class="row">
+              {% for skill in skills|dictsort:"nombre_skill" %}
+              {% if skill.tipo_skill == '3' %}
+                <div class="col-md-6">
+                  <p class="label three"> {{skill.nombre_skill}}</p>
+                  <div class="progress-bar">
+                    <div class="progress fill-{{skill.porcentaje_skill}}">
+                      <div class="glow"></div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+          
+          <!--CV-->
+          <label for="panel3">MY C.V.</label>
+          <input id="panel3" type="checkbox" />
+          <div class="panel">
+            <h3>For a cv in other language than english please <a href="#mail">DROPE ME AN EMAIL</a></h3>
+            <div class="button-group">
+              <div class="text">Download CV</div>
+              {% for word in filesWord %}
+                <div class="icon-cv"><a href="{{word.adminupload.url}}" download="{{word.adminupload.url}}" alt="AMO-CV" target="_blank"><span class="fa fa-arrow-circle-down" aria-hidden="true"></span></a></div>
+              {% endfor %}
+            </div>
+          </div>
+          
+          <!--PERSONAL DETAILS-->
+          <label for="panel4">PERSONAL DETAILS</label>
+          <input id="panel4" type="checkbox" /> 
+          <div class="panel">
+              <h3>Contact Details</h3><div class="spacer"></div>
+              <br>
+              <p class="lead"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;anywhere around the globe</p>
+              <p class="lead"><i class="fa fa-phone"></i>&nbsp; +1(819)635-5942</p>
+              <p class="lead"><i class="fa fa-envelope"></i>&nbsp; i.amo850426@gmail.com or <a href="#mail">DROPE ME AN EMAIL</a></p>
+          </div>
+
+          <!--WEB-APPS-->
+          <label for="panel5">WEB-APPS &amp; [CRM] </label>
+          <input id="panel5" type="checkbox" />
+          <div class="panel">
+            {% with matched=False %}
+              {% for project in projects%}
+                {% if project.tipo_project == '1' %}
+                  {% with matched=True %}
+                    <div class="wrapper1">
+                      <div class="container1">
+                        <div class="top"><img src="{{project.imagen_project.url}}" alt=""></div>
+                      </div>
+                      <div class="inside">
+                        <div class="icon"><i class="material-icons">{{project.name_project}}</i></div>
+                        <div class="contents">
+                          <p>{{project.desc_project}}%</p>
+                          <p>{{project.link_project}}%</p>
+                        </div>
+                      </div>
+                    </div>
+                  {% endwith %}
+                {% endif %}
+              {% endfor %}
+              {% if not matched %}
+              <h4>under construction</h4>
+            {% endif %}
+          {% endwith %}
+          </div>
+
+          <!--MOBIL APPS [Play Store and Apple Store]-->
+          <label for="panel6">MOBIL APPS [Play Store and Apple Store]</label>
+          <input id="panel6" type="checkbox" />
+          <div class="panel">
+            {% with matched=False %}
+              {% for project in projects%}
+                {% if project.tipo_project == '2' %}
+                  {% with matched=True %}
+                    <div class="wrapper1">
+                      <div class="container1">
+                        <div class="top"><img class="intro-img img-fluid mb-4 mb-lg-2 rounded" src="{{project.imagen_project.url}}" alt=""></div>
+                      </div>
+                      <div class="inside">
+                        <div class="icon"><i class="material-icons">{{project.name_project}}</i></div>
+                        <div class="contents">
+                          <h1>{{project.name_project}}</h1>
+                          <p>{{project.desc_project}}</p>
+                          <p>{{project.link_project}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  {% endwith %}
+                {% endif %}
+              {% endfor %}
+              {% if not matched %}
+                <h4>under construction</h4>
+              {% endif %}
+            {% endwith %}
+          </div>
+
+          <!--VIDEO GAMES-->
+          <label for="panel7">VIDEO GAMES</label>
+          <input id="panel7" type="checkbox" />
+          <div class="panel">
+            {% with matched=False %}
+              {% for project in projects%}
+                {% if project.tipo_project == '3' %}
+                  {% with matched=True %}
+                    <div class="wrapper1">
+                      <div class="container1">
+                        <div class="top"><img class="intro-img img-fluid mb-4 mb-lg-2 rounded" src="{{project.imagen_project.url}}" alt=""></div>
+                      </div>
+                      <div class="inside">
+                        <div class="icon"><i class="material-icons">{{project.name_project}}</i></div>
+                        <div class="contents">
+                          <h1>{{project.name_project}}</h1>
+                          <p>{{project.desc_project}}</p>
+                          <p>{{project.link_project}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  {% endwith %}
+                {% endif %}
+              {% endfor %}
+              {% if not matched %}
+                <h4>under construction</h4>
+              {% endif %}
+            {% endwith %}
+        </div>
+
+          <!--MULTIVERSE-->
+          <label for="panel8">virtual AtMOsphere</label>
+          <input id="panel8" type="checkbox" />
+          <div class="panel">
+            {% with matched=False %}
+              {% for project in projects%}
+                {% if project.tipo_project == '4' %}
+                  {% with matched=True %}
+                    <div class="wrapper1">
+                      <div class="container1">
+                        <div class="top"><img class="intro-img img-fluid mb-4 mb-lg-2 rounded" src="{{project.imagen_project.url}}" alt=""></div>
+                      </div>
+                      <div class="inside">
+                        <div class="icon"><i class="material-icons">{{project.name_project}}</i></div>
+                        <div class="contents">
+                          <h1>{{project.name_project}}</h1>
+                          <p>{{project.desc_project}}</p>
+                          <p>{{project.link_project}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  {% endwith %}
+                {% endif %}
+              {% endfor %}
+              {% if not matched %}
+                <h4>under construction</h4>
+              {% endif %}
+            {% endwith %}
+          </div>
+
+          <!--BRANDING-->
+          <label for="panel9">BRANDING</label>
+          <input id="panel9" type="checkbox" />
+          <div class="panel">
+            {% with matched=False %}
+              {% for project in projects%}
+                {% if project.tipo_project == '5' %}
+                  {% with matched=True %}
+                    <div class="wrapper1">
+                      <div class="container1">
+                        <div class="top"><img class="intro-img img-fluid mb-4 mb-lg-2 rounded" src="{{project.imagen_project.url}}" alt=""></div>
+                      </div>
+                      <div class="inside">
+                        <div class="icon"><i class="material-icons">{{project.name_project}}</i></div>
+                        <div class="contents">
+                          <h1>{{project.name_project}}</h1>
+                          <p>{{project.desc_project}}</p>
+                          <p>{{project.link_project}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  {% endwith %}
+                {% endif %}
+              {% endfor %}
+              {% if not matched %}
+                <h4>under construction</h4>
+              {% endif %}
+            {% endwith %}
+          </div>
+
+          <!--UX/UI DESIGN-->
+          <label for="panel10">UX/UI DESIGN</label>
+          <input id="panel10" type="checkbox" />
+          <div class="panel">
+            {% with matched=False %}
+              {% for project in projects%}
+                {% if project.tipo_project == '6' %}
+                  {% with matched=True %}
+                    <div class="wrapper1">
+                      <div class="container1">
+                        <div class="top"><img class="intro-img img-fluid mb-4 mb-lg-2 rounded" src="{{project.imagen_project.url}}" alt=""></div>
+                      </div>
+                      <div class="inside">
+                        <div class="icon"><i class="material-icons">{{project.name_project}}</i></div>
+                        <div class="contents">
+                          <h1>{{project.name_project}}</h1>
+                          <p>{{project.desc_project}}</p>
+                          <p>{{project.link_project}}</p>
+                        </div>
+                      </div>
+                   </div>
+                  {% endwith %}
+                {% endif %}
+              {% endfor %}
+              {% if not matched %}
+                <h4>under construction</h4>
+              {% endif %}
+            {% endwith %}
+          </div>
+
+          
+          <!--SOCIAL NETWORKS-->
+          <label for="panel11">SOCIAL NETWORKS</label>
+          <input id="panel11" type="checkbox" />
+          <div class="panel">
+          </div>
+
+          <!--DROP ME AN EMAIL-->
+          <label for="contactSection">DROP ME AN EMAIL</label>
+          <input id="contactSection" type="checkbox" checked/>
+          <div class="panel always-open" id="mail">
+            <div class="container align-items-center justify-content-center mx-auto">
+              <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12 mx-auto">
+                  <!-- <h3>Send Me a Message</h3> -->
+                  <div class="spacer"></div>
+                  <form class="form-horizontal" role="form" id="form" method="post">
+                    <div class="form-group">
+                      <label for="name" class="col-sm-2 control-label"></label>
+                      <div class="col-sm-12">
+                        <input type="text" class="contact form-control" name="name" id="name" placeholder="your Name" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="email" class="col-sm-2 control-label"></label>
+                      <div class="col-sm-12">
+                        <input type="email" class="contact form-control" name="email" id="email" placeholder="your Email" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="subject" class="col-sm-2 control-label"></label>
+                      <div class="col-sm-12">
+                        <input type="text" class="contact form-control" name="subject" id="subject" placeholder="Subject" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="message" class="col-sm-2 control-label"></label>
+                      <div class="col-sm-12">
+                        <textarea class="contact form-control" rows="3" name="message" id="message" placeholder="Message" required></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-offset-2 col-sm-10 text-center">
+                        <input type="submit" value="Send" class="btn btn-default btn-lg float-right" name="submit">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div> 
+  <br>
+
+  <!--projects-->
+  <main class="gallery">
+    {% for project in projects%}
+        <div  id="photoSection"><p>{{project.name_project}}</p>
+          <img class="intro-img img-fluid mb-4 mb-lg-2 rounded" src="{{project.imagen_project.url}}" alt="">
+        </div>
+    {% endfor %}
+  </main>
+
+    
+
+
+
+</div> 
+     <!-- Bootstrap -->
+     <script src="{% static 'core/vendor/jquery/jquery.min.js' %}"></script>
+     <script src="{% static 'core/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+     <script src="{% static 'core/js/home.js' %}"></script>

@@ -24,6 +24,8 @@ from django.views.static import serve
 urlpatterns = [
     path('', include('core.urls')),
    # path('admin/', admin.site.urls),
+
+
    path(r'download/<path:path>',serve,{'document_root':settings.MEDIA_ROOT})
 ]
 

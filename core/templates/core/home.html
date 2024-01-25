@@ -321,9 +321,19 @@
             <div class="container align-items-center justify-content-center mx-auto">
               <div class="row">
                 <div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12 mx-auto">
+                  <form method="POST" action="{% url 'contact' %}">
+                    {% csrf_token %}
+                    {% if messages %}
+                      {% for message in messages %}
+                        <div class="alert alert-success" role="alert">
+                          {{message}}
+                        </div>
+                      {% endfor %}
+                    {% endif %}
                   <!-- <h3>Send Me a Message</h3> -->
                   <div class="spacer"></div>
-                  <form class="form-horizontal" role="form" id="form" method="post">
+                  <form class="form-horizontal" role="form" id="form" method="post" action="">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                     <div class="form-group">
                       <label for="name" class="col-sm-2 control-label"></label>
                       <div class="col-sm-12">
@@ -354,6 +364,7 @@
                       </div>
                     </div>
                   </form>
+                </form>
                 </div>
               </div>
             </div>

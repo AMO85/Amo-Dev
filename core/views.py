@@ -1,8 +1,15 @@
 import os
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.urls import reverse
 from django.http import HttpResponse, Http404
 from .models import About, Skill, Project, FilesWord
+from .forms import ContactForm
+from django.template.loader import render_to_string
+from django.contrib import messages
+from django.core.mail import EmailMessage
+
+
 
 
 # Create your views here.
@@ -22,3 +29,29 @@ def download(request, path):
             return response
         
     raise Http404
+
+def contact(request):
+    if request.method == "POST":
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        
+        template = render_to_string('core/email.html', {
+            'name': name,
+            'email': email,
+            'message': message
+        })
+
+        email = EmailMessage(
+            subject,
+            template,
+            settings.EMAIL_HOST_USER,
+            ['i.amo850426@gmail.com']
+        )
+        email.fail_silently = False
+        email.send()
+
+        messages.success(request, 'thank you for the email, we will contact you a soon as possible')
+        return redirect('home')
+
